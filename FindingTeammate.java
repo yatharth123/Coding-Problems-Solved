@@ -2,7 +2,12 @@
 
 import java.io.*;
 import java.util.*;
-class GFG {
+class FindingTeammate{
+    public static long fact(long n)
+    {
+        if(n<=1) return 1;
+        return n*fact(n-1);
+    }
 	public static void main (String[] args) {
 		Scanner sc=new Scanner(System.in);
 		ArrayList<Long> al=new ArrayList<Long>();
@@ -34,19 +39,20 @@ class GFG {
 		  for(int i=0;i<al.size();i++)
 		  {
 		      long x=al.get(i);
-		      
-		      long choices=((x%temp)*((x-1)%temp)/2)%temp;
-		      if(choices==0)
-		          choices=1;
-		      if(x%2!=0&&i<(al.size()-1))
+		      //System.out.println(choices);
+		      if(x>0)
 		      {
-		          choices= (choices%temp*al.get(i+1)%temp)%temp;
-		          //System.out.println(choices);
-		          al.set(i+1,al.get(i+1)-1);
+		          if(x%2==0)
+		          options=(options%temp*(fact(x)/(((long)Math.pow(2,x/2))*fact(x/2))%temp))%temp;
+		      
+		        if(x%2!=0&&(i+1)<al.size())
+		        {
+		            
+		            options=(((options%temp)*(fact(x+1)/(((long)Math.pow(2,(x+1)/2))*fact((x+1)/2))%temp))%temp*al.get(i+1)%temp)%temp;
+		            al.set(i+1,al.get(i+1)-1);
 		      }
-		      if(choices>1)
-		        options = (options%temp*choices%temp)%temp;
-		      //System.out.print(options+" ");
+		      }
+		      options=options%temp;
 		  }
 		  System.out.println(options);
 		    t--;
