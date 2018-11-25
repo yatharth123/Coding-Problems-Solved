@@ -1,7 +1,8 @@
 /*package whatever //do not write package name here */
 
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
 class FindingTeammate{
     public static long fact(long n)
     {
@@ -9,10 +10,20 @@ class FindingTeammate{
         return n*fact(n-1);
     }
 	public static void main (String[] args) {
-		Scanner sc=new Scanner(System.in);
+		long arr[] = new long[1000000];
+		arr[0]=1;
+		arr[1]=1;
+		int j=0;
+		long temp=(long)Math.pow(10,9)+7;
+		for(int i=2;i<arr.length;i++)
+		{
+			if(i%2==0)j=i-1;
+			else j=i;
+			arr[i]=(arr[i-2]*j)%temp;
+		}
 		ArrayList<Long> al=new ArrayList<Long>();
 		int t = sc.nextInt();
-		long temp=(long)Math.pow(10,9)+7,options;
+		long options;
 		while(t>0)
 		{
 		    options=1;
@@ -43,19 +54,63 @@ class FindingTeammate{
 		      if(x>0)
 		      {
 		          if(x%2==0)
-		          options=(options%temp*(fact(x)/(((long)Math.pow(2,x/2))*fact(x/2))%temp))%temp;
+		          options=(options%temp*arr[x])%temp;
 		      
 		        if(x%2!=0&&(i+1)<al.size())
 		        {
 		            
-		            options=(((options%temp)*(fact(x+1)/(((long)Math.pow(2,(x+1)/2))*fact((x+1)/2))%temp))%temp*al.get(i+1)%temp)%temp;
+		            options=(options%temp*arr[x]*al.get(i+1)%temp)%temp;
 		            al.set(i+1,al.get(i+1)-1);
-		      }
+		      	}
 		      }
 		      options=options%temp;
 		  }
 		  System.out.println(options);
 		    t--;
 		}
+	}
+}
+class Scanner
+{
+	private BufferedReader br;
+	private StringTokenizer st;
+	public Scanner(InputStream in)
+	{
+		br = new BufferedReader(new InputStreamReader(in));
+	}
+	public String next()
+	{
+		try{
+			while(st==null || !st.hasMoreTokens())
+			{
+				st = new StringTokenizer(br.readLine());
+			}
+		catch(IOException e){ e.printStackTrace();}
+		return st.nextToken();
+	}
+	public int nextInt()
+	{
+		return Integer.parseInt(next());
+	}
+	public long nextLong()
+	{
+		return Long.parseLong(next());
+	}
+	public double nextDouble()
+	{
+		return Double.parseDouble(next());
+	}
+	public String nextLine()
+	{
+		String str="";
+		try
+		{
+			str = br.readLine();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return str;
 	}
 }
