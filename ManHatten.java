@@ -11,8 +11,9 @@ public class ManHatten
             System.out.print("Case #"+i+": ");
             int P = sc.nextInt();
             int Q = sc.nextInt();
-            Q += 1;
-            int ar[][] = new int[Q][Q];
+            
+            int we[] = new int[Q+1];
+            int sn[] = new int[Q+1];
             
             // Set<Pair<Integer,Integer>> set = new HashSet<Pair<Integer,Integer>>();
             // int dir[] = new int[Q];
@@ -27,56 +28,37 @@ public class ManHatten
                 char c = sc.next().charAt(0);
                 if(c=='N')
                 {
-                    y +=1;
-                    for(int k = 0;k<Q;++k)
-                    {
-                        for(int l = y;l<Q;++l)
-                            ar[k][l] +=1;
-                    }
+                    sn[y+1] += 1;
                 }
                 else if(c=='S')
                 {
-                    y -= 1;
-                    for(int k=0;k<Q;++k)
-                    {
-                        for(int l=0;l<=y;++l)
-                            ar[k][l] += 1;
-                    }
+                    sn[0] +=1;
+                    sn[y] -= 1;
                 }
                 else if(c=='E')
                 {    
-                    x += 1;
-                    
-                    for(int k=x;k<Q;++k)
-                    {
-                        for(int l=0;l<Q;++l)
-                            ar[k][l] += 1;
-                    }
+                    we[x+1] += 1;
                 }
-                else{
-                    x -= 1;
-                    for(int k=0;k<=x;++k)
-                    {
-                        for(int l=0;l<Q;++l)
-                            ar[k][l] += 1;
-                    }
+                else
+                {
+                    we[0] += 1;
+                    we[x] -= 1;
                 } 
                 
                 // l.add(new Pair(x,y));    
                 // dir.add(c);
             }
             int maxX = 0,maxY=0;
-            for(int j = 0;j<Q;++j)
+            for(int j=0;j<Q;++j)
             {
-                for(int k=0;k<Q;++k)
-                {
-                    if(ar[j][k]>ar[maxX][maxY])
-                    {
-                        maxX = j;
-                        maxY = k;
-                    }
-                }
+                we[j+1] += we[j];
+                sn[j+1] += sn[j];
+                if(we[j+1]>we[maxX])
+                    maxX = j+1;
+                if(sn[j+1]>sn[maxY])
+                    maxY = j+1;
             }
+            
             System.out.println(maxX+" "+maxY);
         }
     }
